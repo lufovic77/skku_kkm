@@ -1,5 +1,5 @@
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1500, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -8,10 +8,12 @@ function preload() {
     game.load.image('ground_column', './assets/images/platform_column.png');
     game.load.image('star', './assets/images/star.png');
     game.load.image('base', './assets/images/ground.png');
+    game.load.image('switch_on', './assets/images/switch_on.png');
+    game.load.image('switch_off', './assets/images/switch_off.png');
     game.load.spritesheet('dude', './assets/images/dude.png', 28, 42);
 
 }
-var testing;
+
 var player;
 var platforms;
 var cursors;
@@ -25,37 +27,43 @@ function create() {
     platforms = game.add.group();
     platforms.enableBody = true;
 
-    var ground = platforms.create(0, game.world.height - 15, 'base');
+    var ground = platforms.create(0, game.world.height - 100, 'base');
     //ground.scale.setTo(2, 2);
     ground.body.immovable = true;
-
+/*
     ground = platforms.create(0, game.world.height-625 , 'base');
     ground.body.immovable = true;
+*/
 
-
-    var ledge = platforms.create(43, 500, 'ground_long');
+    var ledge = platforms.create(390, 580, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(319, 60, 'ground_long');
+    ledge = platforms.create(670, 540, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(40, 60, 'ground_column');
+    ledge = platforms.create(310, 60, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(720, 60, 'ground_column');
+    ledge = platforms.create(710, 60, 'ground_long');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(310, 60, 'ground_column');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(1110, 60, 'ground_column');
     ledge.body.immovable = true;
 
     // The player and its settings
 
     
-    player = game.add.sprite(32, game.world.height - 60, 'dude');
+    player = game.add.sprite(32, game.world.height - 150, 'dude');
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player);
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.2;
-    player.body.gravity.y = 600;
+    player.body.gravity.y = 650;
     player.body.collideWorldBounds = true;
 
     //  Our two animations, walking left and right.
@@ -64,6 +72,10 @@ function create() {
     //  Our controls.
     
     cursors = game.input.keyboard.createCursorKeys();
+
+
+
+    this.add.button(700, 670, 'switch_on', this.switch_on, this); 
     
 
 }
