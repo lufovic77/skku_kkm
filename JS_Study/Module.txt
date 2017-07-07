@@ -1,0 +1,76 @@
+/*
+'module' works like a 'function'.
+function's representative feature: we can shorten the code's length.
+module also can shorten the code's length when making a project.
+
+1. make a .js files as a module
+2. load them in .html file (between the <head></head> tags)
+3. use
+
+Note: html and js have completely different syntax. Beware to write a js code in <script></script> tags in html file. 
+*/
+
+
+#1 
+////////////////////  main.html 
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<script  src="greeting.js"></script>  // This means codes in greeting.js file are inserted in //here//: <script>//here//</script>
+                                        // Now, this program can use the user-defined functions declared in greeting.js file      
+</head>
+<body>
+<script type="text/javascript">
+	alert(welcome());		                  //Not declared in main.html but int greeting.html file
+</script>
+</body>
+</html>
+////////////////////
+
+
+////////////////////  greeting.js 
+function welcome(){
+	return 'Hello World';
+}
+////////////////////
+
+/*
+'Library' is similar to module.
+Maybe almost codes you are planning to make is already prepared on web.
+Using them properly is important.
+: jQuery 
+1.Have to load jQuery to our code. (Download it from the jQuery site and store it to the local storage)
+2.Reference API doc sites. API represents the list of abilities that jQuery supports.
+
+Note: note that when using jQuery, open and close with '$' sign.
+*/
+
+////////////////////  example.html
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="jQuery_lib.js"></script> //Will use the library from the jQuery.
+</head>
+<body>
+    <ul id="list">  //html code. Represents the lists. 
+        <li>empty</li>
+        <li>empty</li>
+        <li>empty</li>
+        <li>empty</li>
+    </ul>
+    <input id="execute_btn" type="button" value="execute" />    //Insert the 'button'.
+    <script type="text/javascript">
+     $('#execute_btn').click(function(){    //Use jQuery. When the button is clicked, function is implemented. ActionListener in Java.
+        $('#list li').text('DClab'); //Change all texts to 'DClab'.
+     })
+    </script>
+</body>
+</html>
+
+////////////////////
+
+
+////////////////////  jQuery_lib.js 
+//Already stored in the local computer storage.
+////////////////////

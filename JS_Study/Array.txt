@@ -1,0 +1,68 @@
+#1 declaring, using array
+//same with C
+
+//don't have to declare the size of an array 
+//maximum size: 4294967295
+
+var name=['hello', 'world']
+alert(name[0])  //result: hello
+
+
+#2 
+//Using array constructor
+
+    var arr1 = new Array(); // empty array
+		var arr2 = new Array(3); // array with size 3
+   
+   
+ #3
+ //array with iteration
+ 
+     var hello=['hello', 'world', 'git']
+     function get_array(){    //function declartion
+        return hello;
+     }
+     var temp=get_array();
+     for(var i=0;i<temp.length;i++ ){     //.length: the length of the array
+        temp[i]=temp[i].toUpperCase();    //.toUpperCase(): change the character to uppercase
+        document.write(temp[i]);  
+        document.write("<br />");
+     }
+     
+#4 
+//various methods for array
+//1) adding
+/*
+array.push('a'): add character 'a' to the tail
+array.unshift('a'): add character 'a' to the head
+array=array.concat("a,v,c"): concatenate two array
+array.splice(2,0,'a'): starting from index 2, remove '0' data and add 'a'. 
+array.splice(2,1): just remove 1 datum starting from index 2
+*/
+
+//2) deleting
+/*
+array.shift(): remove first element of an array
+array.pop(): remove last element of an array
+*/
+
+//3) sorting
+/*
+array.sort(): sort in asceding order
+array.reverse(): sort in descending order
+*/
+
+var array= [1,3,4,2,5]
+array.push(3);  //  [1, 3, 4, 2, 5, 3]
+array.unshift(2); //  [2, 1, 3, 4, 2, 5, 3]
+array=array.concat(6,7,8) //  [2, 1, 3, 4, 2, 5, 3, 6, 7, 8]
+array.splice(0,1,10)  //  [10, 1, 3, 4, 2, 5, 3, 6, 7, 8]
+array.splice(0,1) //  [1, 3, 4, 2, 5, 3, 6, 7, 8]
+array.shift() //   [3, 4, 2, 5, 3, 6, 7, 8]
+array.pop() //  [3, 4, 2, 5, 3, 6, 7]
+array.sort() // [2, 3, 3, 4, 5, 6, 7]
+array.reverse() //  [7, 6, 5, 4, 3, 3, 2]
+
+
+
+

@@ -1,0 +1,89 @@
+/*
+Ways to declare a function.
+*/
+
+#1 
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+  </head>
+  <body>
+  </body>
+  <script>
+
+  function numbering() {    // function declaration.
+    var i=0;
+    while(i<10){
+      document.write(i);
+      i++;
+    }
+  }
+  
+numbering();      //call. 
+                  //Difference with C: declaring and calling exist on the same field.
+  </script>
+</html>
+
+
+#2 
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+
+    </title>
+  </head>
+  <body>
+
+    <script>
+    numbering=function(){     //Declare a function as delcaring a variable. 
+      var i=0;
+      while(i<10){
+        document.write(i);
+        i++;
+      }
+    }
+
+    
+    numbering();  //call.
+    </script>
+  </body>
+</html>
+
+
+
+#3 (Anonymous function)
+/* form:
+
+(function() {
+    /* Code */
+})();
+
+Beware that whole function is surrounded with brackets.
+This anonymous function is implemented immediately without calling.
+*/
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+
+    </title>
+  </head>
+  <body>
+
+    <script>
+    (function(){
+      var i=0;
+      while(i<10){
+        document.write(i);
+        i++;
+      }
+    })();
+    
+    </script>
+  </body>
+</html>

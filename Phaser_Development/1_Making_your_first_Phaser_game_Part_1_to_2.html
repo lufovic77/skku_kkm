@@ -1,0 +1,51 @@
+<!doctype html>     
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Making your first game, part 2</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>  
+    <!-- Reference my 'module' file on 'JS_Study' branch. It means I will  use the library or module of source "phaser.min.js"-->
+
+    <style type="text/css">                                        
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript"> //Write a javascript code here
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });  //Instantiate
+/*
+<Instantiate>
+1)1st parameter: width of the canvas
+2)2nd parameter: height of the canvas
+3)3rd parameter: 
+can be either Phaser.CANVAS, Phaser.WEBGL, or Phaser.AUTO. This is the rendering context that you want to use. 
+The recommended parameter is Phaser.AUTO which automatically tries to use WebGL, 
+but if the browser or device doesn't support it it'll fall back to Canvas.
+4)4th parameter: 
+this is DOM element. Just leave it as a blank string. If you have some trouble with "uncaught DOMException" with Chrome,
+just try again on IE. 
+5)5th parameter: an object containing four references to Phasers essential functions
+*/
+/*
+Basically, three functions are set.
+preload / create / update
+*/
+function preload() {
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('star', 'assets/star.png');
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+}
+function create() {
+    game.add.sprite(0, 0, 'star');  //Order of adding determines the position of objects. Lately added objects are placed on the top.
+    
+}
+function update() {
+}
+</script>
+
+</body>
+</html>

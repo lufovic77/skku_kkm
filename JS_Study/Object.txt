@@ -1,0 +1,53 @@
+//'Object' in javascript is similar to 'dictionary' in Python or 'HashMap' in JAVA.
+
+#1 
+//how to declare and initialize object?
+
+1)
+var grades = {'height': 178, 'weight': 71}; 
+//object is similar to array. It can have word or numbers as an index(key). However, it has no order.
+
+2)
+var grades = {};
+grades['kyung'] = 10;
+grades['min'] = 6;
+
+grades.kyung // result: 10
+grades.min // result: 6
+
+3)
+var grades = new Object();
+grades['kyung'] = 10;
+grades['min'] = 6;
+
+#2
+//Iteration with object
+//Similar to 'advanced for loop'in JAVA.
+var grades={'kyung':10, 'min':20}
+
+for(key in grades){
+  	console.log(key);   //kyung 
+}                       //min
+
+
+#3 
+//object can contain the object again, and also can contain functions.
+
+  var object={                            //new object
+      'list':{'kyung':178, 'min':71},     //first element contains new object
+      'show': function(){                 //second contains function
+        for(var name in this.list){       //'this' indicates the object including this code. Same with JAVA.
+          document.write(name+"<br />");  
+        }
+      }
+    };
+
+  object.show();  //kyung
+                  //min
+
+
+
+/*
+<reference>
+https://opentutorials.org/
+*/

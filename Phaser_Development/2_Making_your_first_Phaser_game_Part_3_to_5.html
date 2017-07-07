@@ -1,0 +1,73 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Making your first game, part 3</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+function preload() {  //function 'preload' works just like its name. Load images or some animation sheets.
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('star', 'assets/star.png');
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+}
+//////////////////////////////////////////////////////////////////////////////////
+//What we have done.
+//////////////////////////////////////////////////////////////////////////////////
+function create() { //function 'create' make some elements in the game 'world'
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    /*
+    There are Arcade Physics, Ninja Physics and P2.JS Full-Body Physics.
+    Arcade Physics are simple and light enough.
+    */
+    game.add.sprite(0, 0, 'sky'); //Simple background. Just like what we've done when adding a star on the top left.
+    
+    platforms = game.add.group();
+    /*
+    'Groups' is a core concept in phaser.
+    You can group together similar objects and control them all as one single unit.
+    It is useful when checking the collision(Apply same rule to all objects in group).
+    */
+    platforms.enableBody = true;    //  We will enable physics for any object that is created in this group
+                                    // That is, manage them as a single object.
+	
+  
+    var ground = platforms.create(0, game.world.height - 64, 'ground');   //create 'ground' at position (0,game.world.height-64). 
+                                                                          //'ground' is the image we load in 'preload' function above.
+    ground.scale.setTo(2, 2); //set the gorund to fit in the world.
+    ground.body.immovable = true;   //  This stops it from falling away when you jump on it
+    //  Now let's create two ledges
+    var ledge = platforms.create(400, 400, 'ground');
+	
+    ledge.body.immovable = true;    //Same with above command. Stops character from falling when it jumps on the object.
+    ledge = platforms.create(-150, 250, 'ground');
+    ledge.body.immovable = true;
+	
+	
+	
+    player = game.add.sprite(32, game.world.height-150 , 'dude');   //Now, create the players.
+    game.physics.arcade.enable(player);
+    player.body.bounce.y = 0.2;   //It determines the degree of bounce when the player collides to the object.
+    player.body.gravity.y = 300;  //The power of gravity. Higher the value is, faster the player falls.
+    player.body.collideWorldBounds = true;
+	
+	
+    player.animations.add('left', [0, 1, 2, 3], 10, true);  // 'left' animation uses frames 0, 1, 2 and 3 and runs at 10 frames per second.
+    player.animations.add('right', [5, 6, 7, 8], 10, true); // 'right' animation uses frames 5, 6, 7 and 8 and runs at 10 frames per second.
+}
+function update() {   //The program iterates this 'update' function on every frame. 
+    var hitPlatform = game.physics.arcade.collide(player, platforms);
+}
+</script>
+
+</body>
+</html>
