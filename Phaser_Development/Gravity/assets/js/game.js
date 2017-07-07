@@ -11,7 +11,7 @@ function preload() {
     game.load.spritesheet('dude', './assets/images/dude.png', 28, 42);
 
 }
-
+var testing;
 var player;
 var platforms;
 var cursors;
