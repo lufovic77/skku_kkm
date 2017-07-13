@@ -1,5 +1,5 @@
 
-var game = new Phaser.Game(1500, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1500, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update, change: change });
 
 function preload() {
 
@@ -10,6 +10,7 @@ function preload() {
     game.load.image('base', './assets/images/ground.png');
     game.load.image('switch_on', './assets/images/switch_on.png');
     game.load.image('switch_off', './assets/images/switch_off.png');
+  //  game.load.atlas('button', './assets/images/button_texture_atlas.png', './assets/button.json');
     game.load.spritesheet('dude', './assets/images/dude.png', 28, 42);
 
 }
@@ -17,7 +18,13 @@ function preload() {
 var player;
 var platforms;
 var cursors;
+var switch_on;
+var switch_off;
+
+var result = 'Click a body';
 function create() {
+
+
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -73,10 +80,9 @@ function create() {
     
     cursors = game.input.keyboard.createCursorKeys();
 
-
-
-    this.add.button(700, 670, 'switch_on', this.switch_on, this); 
     
+    switch_on = game.add.sprite(200, 200, 'switch_on');
+    game.input.onDown.addOnce(change, this);
 
 }
 
@@ -113,4 +119,11 @@ function update() {
     {
         player.body.velocity.y = -350;
     }
+}
+	
+
+function change() {
+
+    switch_on.loadTexture('switch_off', 0);
+
 }
