@@ -144,12 +144,16 @@ function change() {
 		    switch_on_1.loadTexture('switch_off', 0);
 		    switch_on_2.loadTexture('switch_off', 0);
 		    console.log("off");
+
+    		player.body.gravity.y = -350;
 			switch_var+=1;
 		}
 		else{
 			switch_on_1.loadTexture('switch_on',0);
 			switch_on_2.loadTexture('switch_on',0);
 			console.log("on");
+
+    		player.body.gravity.y = 650;
 			switch_var+=1;	
 
 		}
