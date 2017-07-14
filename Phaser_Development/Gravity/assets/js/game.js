@@ -18,12 +18,13 @@ function preload() {
 var player;
 var platforms;
 var cursors;
-var switch_on;
+var switch_on_1;
+var switch_on_2;
 var switch_off;
+var switch_var=0;
 
 var result = 'Click a body';
 function create() {
-
 
 
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -80,10 +81,25 @@ function create() {
     
     cursors = game.input.keyboard.createCursorKeys();
 
-    
-    switch_on = game.add.sprite(200, 200, 'switch_on');
-    game.input.onDown.addOnce(change, this);
 
+	game.physics.startSystem(Phaser.Physics.P2JS);
+
+    switch_off = game.add.sprite(-200, -200, 'switch_off');
+      //  game.input.onDown.add(change, this);
+     // switch_off.immovable=true;
+
+    //game.input.onDown.add(change, this);
+ //   switch_on = game.add.sprite(200, 200, 'switch_on');
+	//game.physics.p2.enable([ switch_on,switch_off ], false);
+
+    switch_on_1 = game.add.sprite(150, 350, 'switch_on');
+    switch_on_1.anchor.set(0.5);
+    switch_on_1.inputEnabled = true;
+    switch_on_2 = game.add.sprite(1350, 350, 'switch_on');
+    switch_on_2.anchor.set(0.5);
+    switch_on_2.inputEnabled = true;
+    switch_on_1.events.onInputDown.add(change, this);
+    switch_on_2.events.onInputDown.add(change, this);
 }
 
 function update() {
@@ -124,6 +140,18 @@ function update() {
 
 function change() {
 
-    switch_on.loadTexture('switch_off', 0);
+		if(switch_var%2==0){
+		    switch_on_1.loadTexture('switch_off', 0);
+		    switch_on_2.loadTexture('switch_off', 0);
+		    console.log("off");
+			switch_var+=1;
+		}
+		else{
+			switch_on_1.loadTexture('switch_on',0);
+			switch_on_2.loadTexture('switch_on',0);
+			console.log("on");
+			switch_var+=1;	
 
+		}
+	
 }
