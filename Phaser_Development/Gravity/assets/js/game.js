@@ -23,6 +23,13 @@ var switch_on_2;
 var switch_off;
 var switch_var=0;
 
+
+var leftKey;
+var rightKey;
+var upKey;
+var downKey;
+
+
 var result = 'Click a body';
 function create() {
 
@@ -81,6 +88,11 @@ function create() {
     
     cursors = game.input.keyboard.createCursorKeys();
 
+	this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
+	this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
+	this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
+	this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
+
 
 	game.physics.startSystem(Phaser.Physics.P2JS);
 
@@ -100,6 +112,9 @@ function create() {
     switch_on_2.inputEnabled = true;
     switch_on_1.events.onInputDown.add(change, this);
     switch_on_2.events.onInputDown.add(change, this);
+
+
+
 }
 
 function update() {
@@ -108,7 +123,7 @@ function update() {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
 
-    if (cursors.left.isDown)
+    if (this.leftKey.isDown)
     {
         //  Move to the left
         player.body.velocity.x = -150;
