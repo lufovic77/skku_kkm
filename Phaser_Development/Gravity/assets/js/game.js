@@ -10,6 +10,7 @@ function preload() {
     game.load.image('base', './assets/images/ground.png');
     game.load.image('switch_on', './assets/images/switch_on.png');
     game.load.image('switch_off', './assets/images/switch_off.png');
+    game.load.image('spike', './assets/images/spike.png');
   //  game.load.atlas('button', './assets/images/button_texture_atlas.png', './assets/button.json');
     game.load.spritesheet('dude', './assets/images/dude.png', 28, 42);
 
@@ -33,7 +34,8 @@ var downKey;
 var result = 'Click a body';
 function create() {
 
-
+	//spike.width = 40;
+	//spike.height = 25;
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -70,6 +72,15 @@ function create() {
 
     // The player and its settings
 
+
+    var spikes = platforms.create(670,510,'spike');	//making the spikes
+    spikes.body.immovable = true;
+    spikes.width=40;
+    spikes.height=30;
+
+
+
+
     
     player = game.add.sprite(32, game.world.height - 150, 'dude');
 
@@ -88,7 +99,7 @@ function create() {
     
     cursors = game.input.keyboard.createCursorKeys();
 
-	this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
+	this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.A);		//for player 2
 	this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
 	this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 	this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
@@ -110,9 +121,13 @@ function create() {
     switch_on_2 = game.add.sprite(1350, 350, 'switch_on');
     switch_on_2.anchor.set(0.5);
     switch_on_2.inputEnabled = true;
-    switch_on_1.events.onInputDown.add(change, this);
+    switch_on_1.events.onInputDown.add(change, this);		//Sending the signal of clicking the switch button
     switch_on_2.events.onInputDown.add(change, this);
 
+
+
+    spikes.body.onCollide = new Phaser.Signal();	
+    spikes.body.onCollide.add(hitSprite, this);
 
 
 }
@@ -123,7 +138,7 @@ function update() {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
 
-    if (this.leftKey.isDown)
+    if (cursors.left.isDown)
     {
         //  Move to the left
         player.body.velocity.x = -150;
@@ -173,4 +188,10 @@ function change() {
 
 		}
 	
+}
+
+function hitSprite (spike, player) {
+
+	player.kill();
+    
 }
