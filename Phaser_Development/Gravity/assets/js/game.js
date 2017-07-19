@@ -17,6 +17,7 @@ function preload() {
 }
 
 var player;
+var player2;
 var platforms;
 var cursors;
 var switch_on_1;
@@ -96,6 +97,23 @@ function create() {
     player.animations.add('left', [0, 1, 2, 3], 8, true);
     player.animations.add('right', [5, 6, 7, 8], 8, true);
     //  Our controls.
+
+
+    
+    player2 = game.add.sprite(1300, game.world.height - 150, 'dude');
+
+    //  We need to enable physics on the player
+    game.physics.arcade.enable(player2);
+
+    //  Player physics properties. Give the little guy a slight bounce.
+    player2.body.bounce.y = 0.2;
+    player2.body.gravity.y = 650;
+    player2.body.collideWorldBounds = true;
+
+    //  Our two animations, walking left and right.
+    player2.animations.add('left', [0, 1, 2, 3], 8, true);
+    player2.animations.add('right', [5, 6, 7, 8], 8, true);
+
     
     cursors = game.input.keyboard.createCursorKeys();
 
@@ -165,6 +183,41 @@ function update() {
     {
         player.body.velocity.y = -350;
     }
+
+
+
+    game.physics.arcade.collide(player2, platforms);
+
+    //  Reset the players velocity (movement)
+    player2.body.velocity.x = 0;
+
+    if (this.leftKey.isDown)
+    {
+        //  Move to the left
+        player2.body.velocity.x = -150;
+
+        player2.animations.play('left');
+    }
+    else if (this.rightKey.isDown)
+    {
+        //  Move to the right
+        player2.body.velocity.x = 150;
+
+        player2.animations.play('right');
+    }
+    else
+    {
+        //  Stand still
+        player2.animations.stop();
+
+        player2.frame = 4;
+    }
+    
+    //  Allow the player to jump if they are touching the ground.
+    if (this.upKey.isDown && player2.body.touching.down)
+    {
+        player2.body.velocity.y = -350;
+    }
 }
 	
 
@@ -176,6 +229,7 @@ function change() {
 		    console.log("off");
 
     		player.body.gravity.y = -350;
+    		player2.body.gravity.y = -350;
 			switch_var+=1;
 		}
 		else{
@@ -184,6 +238,7 @@ function change() {
 			console.log("on");
 
     		player.body.gravity.y = 650;
+    		player2.body.gravity.y = 650;
 			switch_var+=1;	
 
 		}
@@ -193,5 +248,5 @@ function change() {
 function hitSprite (spike, player) {
 
 	player.kill();
-    
+
 }
