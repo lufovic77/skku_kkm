@@ -11,8 +11,9 @@ function preload() {
     game.load.image('switch_on', './assets/images/switch_on.png');
     game.load.image('switch_off', './assets/images/switch_off.png');
     game.load.image('spike', './assets/images/spike.png');
+    game.load.image('hole', './assets/images/hole.png');
   //  game.load.atlas('button', './assets/images/button_texture_atlas.png', './assets/button.json');
-    game.load.spritesheet('dude', './assets/images/dude.png', 28, 42);
+    game.load.spritesheet('dude', './assets/images/dude.png', 32, 46);
 
 }
 
@@ -24,7 +25,6 @@ var switch_on_1;
 var switch_on_2;
 var switch_off;
 var switch_var=0;
-
 
 var leftKey;
 var rightKey;
@@ -71,17 +71,59 @@ function create() {
     ledge = platforms.create(1110, 60, 'ground_column');
     ledge.body.immovable = true;
 
+    ledge = platforms.create(750, 380, 'ground_long');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(310, 420, 'ground_long');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(520, 260, 'ground_long');
+    ledge.body.immovable = true;
+
+
     // The player and its settings
 
+    var spikes;
 
-    var spikes = platforms.create(670,510,'spike');	//making the spikes
-    spikes.body.immovable = true;
-    spikes.width=40;
-    spikes.height=30;
+    for(var i=0;i<2;i++){
+    	spikes = platforms.create(670+40*i,515,'spike');	//making the spikes
 
+    	spikes.body.immovable = true;
+    	spikes.width=40;
+   		spikes.height=25;
+   		spikes.body.onCollide = new Phaser.Signal();	
+   		spikes.body.onCollide.add(hitSprite, this);
+	}
 
+    for(var i=0;i<3;i++){
+   		spikes = platforms.create(992+40*i,432,'spike');
+    	spikes.anchor.setTo(0,.5);
+    	spikes.body.immovable = true;
+    	spikes.width=40;
+    	spikes.height=25;
+    	spikes.scale.y*=-1;
+   		spikes.body.onCollide = new Phaser.Signal();	
+   		spikes.body.onCollide.add(hitSprite, this);
+    }
 
+    for(var i=0;i<3;i++){
+   		spikes = platforms.create(680+40*i,312,'spike');
+    	spikes.anchor.setTo(0,.5);
+    	spikes.body.immovable = true;
+    	spikes.width=40;
+    	spikes.height=25;
+    	spikes.scale.y*=-1;
+   		spikes.body.onCollide = new Phaser.Signal();	
+   		spikes.body.onCollide.add(hitSprite, this);
+    }
 
+    var hole=platforms.create(720,220,'hole');
+    hole.body.immovable=true;
+    hole.anchor.setTo(0,0);
+   	hole.width=40;
+   	hole.height=40;
+   	hole.body.onCollide = new Phaser.Signal();	
+   	hole.body.onCollide.add(hitHole, this);
     
     player = game.add.sprite(32, game.world.height - 150, 'dude');
 
@@ -142,11 +184,8 @@ function create() {
     switch_on_1.events.onInputDown.add(change, this);		//Sending the signal of clicking the switch button
     switch_on_2.events.onInputDown.add(change, this);
 
-
-
-    spikes.body.onCollide = new Phaser.Signal();	
-    spikes.body.onCollide.add(hitSprite, this);
-
+    player.anchor.setTo(.5,.5);
+    player2.anchor.setTo(.5,.5);
 
 }
 
@@ -228,7 +267,9 @@ function change() {
 		    switch_on_2.loadTexture('switch_off', 0);
 		    console.log("off");
 
+		    player.scale.y*=-1;
     		player.body.gravity.y = -350;
+		    player2.scale.y*=-1;
     		player2.body.gravity.y = -350;
 			switch_var+=1;
 		}
@@ -237,8 +278,10 @@ function change() {
 			switch_on_2.loadTexture('switch_on',0);
 			console.log("on");
 
+		    player.scale.y*=-1;
     		player.body.gravity.y = 650;
-    		player2.body.gravity.y = 650;
+		    player2.scale.y*=-1;
+    		player2	.body.gravity.y = 650;
 			switch_var+=1;	
 
 		}
@@ -246,6 +289,12 @@ function change() {
 }
 
 function hitSprite (spike, player) {
+
+	player.kill();
+
+}
+
+function hitHole (hole, player) {
 
 	player.kill();
 
