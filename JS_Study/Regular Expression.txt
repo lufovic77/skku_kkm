@@ -1,0 +1,70 @@
+<Regular Expression>
+(정규표현식 in Korean)
+
+1. Used for finding pattern in String.
+
+
+
+#1 
+//Initiating
+-> aware that initiating in regular expression uses /~~/.
+
+1) var pattern = /a/;
+: Also can use like 
+  var pattern = /a./;
+
+  dot . represents any word.
+  It can be 'ab' or 'az' any of them. 
+
+
+2) var pattern = new RegExp('a');
+
+-> Same method, same results.
+
+
+#2 
+//Usage
+
+1) RegExp.exec()
+-> returns the index of the pattern and input.
+
+	ex1) 
+	var pattern = /aa/;
+	pattern.exec('abccde');	//result: ["a", index: 0, input: "abccde"]
+
+	ex2)
+	var pattern = /a./;
+	pattern.exec('abccde'); //result: ["ab", index: 0, input: "abccde"]
+
+2) RegExp.test();
+-> search whether the pattern is included in the string or not.
+
+	ex)
+	var pattern = /aa/;
+	console.log(pattern.test('aabcdef')); // true
+	console.log(pattern.test('bcdefg'));  // false
+
+#3
+// Using string
+
+1) String.match(pattern);
+-> find whether your pattern is included in the string or not.
+	
+	ex)
+	var pattern =/a/;
+	str = 'abcdef';
+	str.match(pattern);	//	result: ["a", index: 0, input: "abcdef"]
+	str = 'hello JS';
+	str.match(pattern);	//	result: null
+
+2) String.replace(pattern, what you want);
+-> find the pattern in the string and replace it with what you want.
+
+	ex)
+	var pattern =/a/;
+	str = 'abcdef';
+	str.replace(pattern, 'hello'); // result: "hellobcdef"
+	str = 'bcdef';
+	str.replace(pattern, 'hello'); // result: "bcdef"
+	
+
