@@ -1,5 +1,5 @@
 
-var game = new Phaser.Game(1500, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update, change: change });
+var game = new Phaser.Game(1280, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update, change: change });
 
 function preload() {
 
@@ -17,6 +17,9 @@ function preload() {
 
 }
 
+var success=0;
+
+
 var player;
 var player2;
 var platforms;
@@ -30,6 +33,8 @@ var leftKey;
 var rightKey;
 var upKey;
 var downKey;
+
+var hole;
 
 
 var result = 'Click a body';
@@ -53,31 +58,31 @@ function create() {
     ground.body.immovable = true;
 */
 
-    var ledge = platforms.create(390, 580, 'ground_long');
+    var ledge = platforms.create(290, 580, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(670, 540, 'ground_long');
+    ledge = platforms.create(570, 540, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(310, 60, 'ground_long');
+    ledge = platforms.create(210, 60, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(710, 60, 'ground_long');
+    ledge = platforms.create(610, 60, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(310, 60, 'ground_column');
+    ledge = platforms.create(210, 60, 'ground_column');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(1110, 60, 'ground_column');
+    ledge = platforms.create(1010, 60, 'ground_column');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(750, 380, 'ground_long');
+    ledge = platforms.create(650, 380, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(310, 420, 'ground_long');
+    ledge = platforms.create(210, 420, 'ground_long');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(520, 260, 'ground_long');
+    ledge = platforms.create(420, 260, 'ground_long');
     ledge.body.immovable = true;
 
 
@@ -86,7 +91,7 @@ function create() {
     var spikes;
 
     for(var i=0;i<2;i++){
-    	spikes = platforms.create(670+40*i,515,'spike');	//making the spikes
+    	spikes = platforms.create(570+40*i,515,'spike');	//making the spikes
 
     	spikes.body.immovable = true;
     	spikes.width=40;
@@ -96,7 +101,7 @@ function create() {
 	}
 
     for(var i=0;i<3;i++){
-   		spikes = platforms.create(992+40*i,432,'spike');
+   		spikes = platforms.create(892+40*i,432,'spike');
     	spikes.anchor.setTo(0,.5);
     	spikes.body.immovable = true;
     	spikes.width=40;
@@ -107,7 +112,7 @@ function create() {
     }
 
     for(var i=0;i<3;i++){
-   		spikes = platforms.create(680+40*i,312,'spike');
+   		spikes = platforms.create(580+40*i,312,'spike');
     	spikes.anchor.setTo(0,.5);
     	spikes.body.immovable = true;
     	spikes.width=40;
@@ -117,7 +122,7 @@ function create() {
    		spikes.body.onCollide.add(hitSprite, this);
     }
 
-    var hole=platforms.create(720,220,'hole');
+    hole=platforms.create(620,220,'hole');
     hole.body.immovable=true;
     hole.anchor.setTo(0,0);
    	hole.width=40;
@@ -142,7 +147,7 @@ function create() {
 
 
     
-    player2 = game.add.sprite(1300, game.world.height - 150, 'dude');
+    player2 = game.add.sprite(1200, game.world.height - 150, 'dude');
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player2);
@@ -175,10 +180,10 @@ function create() {
  //   switch_on = game.add.sprite(200, 200, 'switch_on');
 	//game.physics.p2.enable([ switch_on,switch_off ], false);
 
-    switch_on_1 = game.add.sprite(150, 350, 'switch_on');
+    switch_on_1 = game.add.sprite(100, 350, 'switch_on');
     switch_on_1.anchor.set(0.5);
     switch_on_1.inputEnabled = true;
-    switch_on_2 = game.add.sprite(1350, 350, 'switch_on');
+    switch_on_2 = game.add.sprite(1180, 350, 'switch_on');
     switch_on_2.anchor.set(0.5);
     switch_on_2.inputEnabled = true;
     switch_on_1.events.onInputDown.add(change, this);		//Sending the signal of clicking the switch button
@@ -257,8 +262,17 @@ function update() {
     {
         player2.body.velocity.y = -350;
     }
+
+    hole.angle++;
+
+    if(success==2){
+    	nextStage();
+    }
 }
 	
+function nextStage(){
+
+}
 
 function change() {
 
@@ -297,5 +311,5 @@ function hitSprite (spike, player) {
 function hitHole (hole, player) {
 
 	player.kill();
-
+	success++;
 }
