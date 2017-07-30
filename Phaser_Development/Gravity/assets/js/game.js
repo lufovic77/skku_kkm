@@ -1,22 +1,4 @@
 
-var game = new Phaser.Game(1280, 750, Phaser.AUTO, '', { preload: preload, create: create, update: update, change: change });
-
-function preload() {
-
-    game.load.image('back', './assets/images/back.png');
-    game.load.image('ground_long', './assets/images/platform_long.png');
-    game.load.image('ground_column', './assets/images/platform_column.png');
-    game.load.image('star', './assets/images/star.png');
-    game.load.image('base', './assets/images/ground.png');
-    game.load.image('switch_on', './assets/images/switch_on.png');
-    game.load.image('switch_off', './assets/images/switch_off.png');
-    game.load.image('spike', './assets/images/spike.png');
-    game.load.image('hole', './assets/images/hole.png');
-  //  game.load.atlas('button', './assets/images/button_texture_atlas.png', './assets/button.json');
-    game.load.spritesheet('dude', './assets/images/dude.png', 32, 46);
-
-}
-
 var success=0;
 
 
@@ -38,19 +20,36 @@ var hole;
 
 
 var result = 'Click a body';
-function create() {
+var Game={
+ preload: function(){
+
+    game.load.image('back', './assets/images/back.png');
+    game.load.image('ground_long', './assets/images/platform_long.png');
+    game.load.image('ground_column', './assets/images/platform_column.png');
+    game.load.image('star', './assets/images/star.png');
+    game.load.image('base', './assets/images/ground.png');
+    game.load.image('switch_on', './assets/images/switch_on.png');
+    game.load.image('switch_off', './assets/images/switch_off.png');
+    game.load.image('spike', './assets/images/spike.png');
+    game.load.image('hole', './assets/images/hole.png');
+  //  game.load.atlas('button', './assets/images/button_texture_atlas.png', './assets/button.json');
+    game.load.spritesheet('dude', './assets/images/dude.png', 32, 46);
+
+},
+
+create: function() {
 
 	//spike.width = 40;
 	//spike.height = 25;
     //  We're going to be using physics, so enable the Arcade Physics system
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    game.add.sprite(0, 0, 'back');
-    platforms = game.add.group();
+    this.add.sprite(0, 0, 'back');
+    platforms = this.add.group();
     platforms.enableBody = true;
 
-    var ground = platforms.create(0, game.world.height - 100, 'base');
+    var ground = platforms.create(0, this.world.height - 100, 'base');
     //ground.scale.setTo(2, 2);
     ground.body.immovable = true;
 /*
@@ -97,18 +96,18 @@ function create() {
     	spikes.width=40;
    		spikes.height=25;
    		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(hitSprite, this);
+   		spikes.body.onCollide.add(this.hitSprite, this);
 	}
 
     for(var i=0;i<3;i++){
-   		spikes = platforms.create(892+40*i,432,'spike');
-    	spikes.anchor.setTo(0,.5);
-    	spikes.body.immovable = true;
-    	spikes.width=40;
-    	spikes.height=25;
-    	spikes.scale.y*=-1;
-   		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(hitSprite, this);
+   		this.spikes = platforms.create(892+40*i,432,'spike');
+    	this.spikes.anchor.setTo(0,.5);
+    	this.spikes.body.immovable = true;
+    	this.spikes.width=40;
+    	this.spikes.height=25;
+    	this.spikes.scale.y*=-1;
+   		this.spikes.body.onCollide = new Phaser.Signal();	
+   		this.spikes.body.onCollide.add(this.hitSprite, this);
     }
 
     for(var i=0;i<3;i++){
@@ -119,7 +118,7 @@ function create() {
     	spikes.height=25;
     	spikes.scale.y*=-1;
    		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(hitSprite, this);
+   		spikes.body.onCollide.add(this.hitSprite, this);
     }
 
     hole=platforms.create(620,220,'hole');
@@ -128,12 +127,12 @@ function create() {
    	hole.width=40;
    	hole.height=40;
    	hole.body.onCollide = new Phaser.Signal();	
-   	hole.body.onCollide.add(hitHole, this);
+   	hole.body.onCollide.add(this.hitHole, this);
     
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = this.add.sprite(32, this.world.height - 150, 'dude');
 
     //  We need to enable physics on the player
-    game.physics.arcade.enable(player);
+    this.physics.arcade.enable(player);
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.2;
@@ -147,10 +146,10 @@ function create() {
 
 
     
-    player2 = game.add.sprite(1200, game.world.height - 150, 'dude');
+    player2 = this.add.sprite(1200, this.world.height - 150, 'dude');
 
     //  We need to enable physics on the player
-    game.physics.arcade.enable(player2);
+    this.physics.arcade.enable(player2);
 
     //  Player physics properties. Give the little guy a slight bounce.
     player2.body.bounce.y = 0.2;
@@ -162,17 +161,17 @@ function create() {
     player2.animations.add('right', [5, 6, 7, 8], 8, true);
 
     
-    cursors = game.input.keyboard.createCursorKeys();
+    cursors = this.input.keyboard.createCursorKeys();
 
-	this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.A);		//for player 2
-	this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-	this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
-	this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
+	this.leftKey = this.input.keyboard.addKey(Phaser.Keyboard.A);		//for player 2
+	this.rightKey = this.input.keyboard.addKey(Phaser.Keyboard.D);
+	this.upKey = this.input.keyboard.addKey(Phaser.Keyboard.W);
+	this.downKey = this.input.keyboard.addKey(Phaser.Keyboard.S);
 
 
-	game.physics.startSystem(Phaser.Physics.P2JS);
+	this.physics.startSystem(Phaser.Physics.P2JS);
 
-    switch_off = game.add.sprite(-200, -200, 'switch_off');
+    switch_off = this.add.sprite(-200, -200, 'switch_off');
       //  game.input.onDown.add(change, this);
      // switch_off.immovable=true;
 
@@ -180,22 +179,22 @@ function create() {
  //   switch_on = game.add.sprite(200, 200, 'switch_on');
 	//game.physics.p2.enable([ switch_on,switch_off ], false);
 
-    switch_on_1 = game.add.sprite(100, 350, 'switch_on');
+    switch_on_1 = this.add.sprite(100, 350, 'switch_on');
     switch_on_1.anchor.set(0.5);
     switch_on_1.inputEnabled = true;
-    switch_on_2 = game.add.sprite(1180, 350, 'switch_on');
+    switch_on_2 = this.add.sprite(1180, 350, 'switch_on');
     switch_on_2.anchor.set(0.5);
     switch_on_2.inputEnabled = true;
-    switch_on_1.events.onInputDown.add(change, this);		//Sending the signal of clicking the switch button
-    switch_on_2.events.onInputDown.add(change, this);
+    switch_on_1.events.onInputDown.add(this.change, this);		//Sending the signal of clicking the switch button
+    switch_on_2.events.onInputDown.add(this.change, this);
 
     player.anchor.setTo(.5,.5);
     player2.anchor.setTo(.5,.5);
 
-}
+},
 
-function update() {
-    game.physics.arcade.collide(player, platforms);
+update: function() {
+    this.physics.arcade.collide(player, platforms);
 
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
@@ -230,7 +229,7 @@ function update() {
 
 
 
-    game.physics.arcade.collide(player2, platforms);
+    this.physics.arcade.collide(player2, platforms);
 
     //  Reset the players velocity (movement)
     player2.body.velocity.x = 0;
@@ -268,13 +267,13 @@ function update() {
     if(success==2){
     	nextStage();
     }
-}
+},
 	
-function nextStage(){
+nextStage: function(){
 
-}
+},
 
-function change() {
+change: function() {
 
 		if(switch_var%2==0){
 		    switch_on_1.loadTexture('switch_off', 0);
@@ -300,16 +299,17 @@ function change() {
 
 		}
 	
-}
+},
 
-function hitSprite (spike, player) {
+hitSprite: function(spike, player) {
 
 	player.kill();
 
-}
+},
 
-function hitHole (hole, player) {
+ hitHole: function(hole, player) {
 
 	player.kill();
 	success++;
 }
+};
