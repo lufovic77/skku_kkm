@@ -2,9 +2,11 @@
 var success=0;
 
 
+var i;
+var players;
 var player;
 var player2;
-var platforms;
+var platforms,spikes;
 var cursors;
 var switch_on_1;
 var switch_on_2;
@@ -23,17 +25,17 @@ var result = 'Click a body';
 var Game={
  preload: function(){
 
-    game.load.image('back', './assets/images/back.png');
-    game.load.image('ground_long', './assets/images/platform_long.png');
-    game.load.image('ground_column', './assets/images/platform_column.png');
-    game.load.image('star', './assets/images/star.png');
-    game.load.image('base', './assets/images/ground.png');
-    game.load.image('switch_on', './assets/images/switch_on.png');
-    game.load.image('switch_off', './assets/images/switch_off.png');
-    game.load.image('spike', './assets/images/spike.png');
-    game.load.image('hole', './assets/images/hole.png');
+    this.load.image('back', './assets/images/back.png');
+    this.load.image('ground_long', './assets/images/platform_long.png');
+    this.load.image('ground_column', './assets/images/platform_column.png');
+    this.load.image('star', './assets/images/star.png');
+    this.load.image('base', './assets/images/ground.png');
+    this.load.image('switch_on', './assets/images/switch_on.png');
+    this.load.image('switch_off', './assets/images/switch_off.png');
+    this.load.image('spike', './assets/images/spike.png');
+    this.load.image('hole', './assets/images/hole.png');
   //  game.load.atlas('button', './assets/images/button_texture_atlas.png', './assets/button.json');
-    game.load.spritesheet('dude', './assets/images/dude.png', 32, 46);
+    this.load.spritesheet('dude', './assets/images/dude.png', 32, 46);
 
 },
 
@@ -88,34 +90,34 @@ create: function() {
     // The player and its settings
 
     var spikes;
-
-    for(var i=0;i<2;i++){
+    for(i=0;i<2;i++){
     	spikes = platforms.create(570+40*i,515,'spike');	//making the spikes
 
     	spikes.body.immovable = true;
     	spikes.width=40;
-   		spikes.height=25;
+   	    spikes.height=25;
+    	spikes.body.collideWorldBounds = true;
    		spikes.body.onCollide = new Phaser.Signal();	
    		spikes.body.onCollide.add(this.hitSprite, this);
 	}
 
-    for(var i=0;i<3;i++){
-   		this.spikes = platforms.create(892+40*i,432,'spike');
-    	this.spikes.anchor.setTo(0,.5);
-    	this.spikes.body.immovable = true;
-    	this.spikes.width=40;
-    	this.spikes.height=25;
-    	this.spikes.scale.y*=-1;
-   		this.spikes.body.onCollide = new Phaser.Signal();	
-   		this.spikes.body.onCollide.add(this.hitSprite, this);
+    for(i=0;i<3;i++){
+   		spikes = platforms.create(892+40*i,432,'spike');
+        spikes.anchor.setTo(0,.6);
+    	spikes.body.immovable = true;	
+    	spikes.width=40;
+    	//spikes.height=25;
+    	spikes.scale.y*=-1;
+   		spikes.body.onCollide = new Phaser.Signal();	
+   		spikes.body.onCollide.add(this.hitSprite, this);
     }
 
-    for(var i=0;i<3;i++){
+    for(i=0;i<3;i++){
    		spikes = platforms.create(580+40*i,312,'spike');
-    	spikes.anchor.setTo(0,.5);
+    	spikes.anchor.setTo(0,.6);
     	spikes.body.immovable = true;
     	spikes.width=40;
-    	spikes.height=25;
+      //  spikes.height=25;
     	spikes.scale.y*=-1;
    		spikes.body.onCollide = new Phaser.Signal();	
    		spikes.body.onCollide.add(this.hitSprite, this);
@@ -132,7 +134,7 @@ create: function() {
     player = this.add.sprite(32, this.world.height - 150, 'dude');
 
     //  We need to enable physics on the player
-    this.physics.arcade.enable(player);
+    this.physics.enable(player, Phaser.Physics.ARCADE);
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.2;
@@ -149,7 +151,7 @@ create: function() {
     player2 = this.add.sprite(1200, this.world.height - 150, 'dude');
 
     //  We need to enable physics on the player
-    this.physics.arcade.enable(player2);
+    this.physics.enable(player2, Phaser.Physics.ARCADE);
 
     //  Player physics properties. Give the little guy a slight bounce.
     player2.body.bounce.y = 0.2;
@@ -224,7 +226,10 @@ update: function() {
     //  Allow the player to jump if they are touching the ground.
     if (cursors.up.isDown && player.body.touching.down)
     {
+        if(switch_var%2===0)
         player.body.velocity.y = -350;
+        else
+        player.body.velocity.y = 350;
     }
 
 
@@ -281,9 +286,9 @@ change: function() {
 		    console.log("off");
 
 		    player.scale.y*=-1;
-    		player.body.gravity.y = -350;
+    		player.body.gravity.y = -650;
 		    player2.scale.y*=-1;
-    		player2.body.gravity.y = -350;
+    		player2.body.gravity.y = -650;
 			switch_var+=1;
 		}
 		else{
@@ -301,15 +306,16 @@ change: function() {
 	
 },
 
-hitSprite: function(spike, player) {
+hitSprite: function(player,spike) {
 
-	player.kill();
+	players.kill();
+	console.log("wtf");
 
 },
 
- hitHole: function(hole, player) {
+ hitHole: function(hole, players) {
 
-	player.kill();
+	players.kill();
 	success++;
 }
 };

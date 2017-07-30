@@ -18,7 +18,7 @@ var Menu = {
     
     startGame: function () {
         // Change the state to the actual game.
-        Menu.state.start('Game');
+        this.state.start('Game');
         console.log("hello ");
     }
 
