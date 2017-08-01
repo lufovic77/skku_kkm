@@ -26,8 +26,8 @@ var Game={
  preload: function(){
 
     this.load.image('back', './assets/images/back.png');
-    this.load.image('ground_long', './assets/images/platform_long.png');
-    this.load.image('ground_column', './assets/images/platform_column.png');
+    this.load.image('ground_long', './assets/images/platform_long2.png');
+    this.load.image('ground_column', './assets/images/platform_column2.png');
     this.load.image('star', './assets/images/star.png');
     this.load.image('base', './assets/images/ground.png');
     this.load.image('switch_on', './assets/images/switch_on.png');
@@ -59,7 +59,8 @@ create: function() {
     ground.body.immovable = true;
 */
 
-    var ledge = platforms.create(290, 580, 'ground_long');
+    var ledge; 
+    ledge= platforms.create(290, 580, 'ground_long');
     ledge.body.immovable = true;
 
     ledge = platforms.create(570, 540, 'ground_long');
@@ -69,6 +70,9 @@ create: function() {
     ledge.body.immovable = true;
 
     ledge = platforms.create(610, 60, 'ground_long');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(420, 260, 'ground_long');
     ledge.body.immovable = true;
 
     ledge = platforms.create(210, 60, 'ground_column');
@@ -81,9 +85,6 @@ create: function() {
     ledge.body.immovable = true;
 
     ledge = platforms.create(210, 420, 'ground_long');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(420, 260, 'ground_long');
     ledge.body.immovable = true;
 
 
@@ -226,10 +227,11 @@ update: function() {
     //  Allow the player to jump if they are touching the ground.
     if (cursors.up.isDown && player.body.touching.down)
     {
-        if(switch_var%2===0)
-        player.body.velocity.y = -350;
-        else
-        player.body.velocity.y = 350;
+            player.body.velocity.y = -320;
+    }
+    if(switch_var%2==1 && cursors.up.isDown){
+            player.body.velocity.y = 320;
+
     }
 
 
@@ -264,10 +266,10 @@ update: function() {
     //  Allow the player to jump if they are touching the ground.
     if (this.upKey.isDown && player2.body.touching.down)
     {
-        player2.body.velocity.y = -350;
+        player2.body.velocity.y = -320;
     }
 
-    hole.angle++;
+    //hole.angle++;
 
     if(success==2){
     	nextStage();
@@ -303,6 +305,7 @@ change: function() {
 			switch_var+=1;	
 
 		}
+        console.log(switch_var);
 	
 },
 
@@ -311,6 +314,7 @@ hitSprite: function(spike,player) {
 	player.kill();
 	console.log("wtf");
 
+    player.reset(32, this.world.height-150);
 },
 
  hitHole: function(hole, players) {
