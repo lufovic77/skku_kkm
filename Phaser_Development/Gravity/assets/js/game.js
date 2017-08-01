@@ -306,9 +306,9 @@ change: function() {
 	
 },
 
-hitSprite: function(player,spike) {
+hitSprite: function(spike,player) {
 
-	players.kill();
+	player.kill();
 	console.log("wtf");
 
 },
