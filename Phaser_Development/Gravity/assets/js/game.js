@@ -21,7 +21,6 @@ var downKey;
 var hole;
 
 var attempt1=5,attempt2=5;
-var temp1=5,temp2=5;
 
 
 var result = 'Click a body';
@@ -310,19 +309,26 @@ change: function() {
 		}
         console.log(switch_var);
 	
+
+        if(attempt1==0 || attempt2==0){
+            gameOver();
+        }
+
 },
 
 hitSprite: function(spike,play) {
 
     if(play==player){
-	   player.kill();
-	   console.log("wtf");    
+	    player.kill();
+	    console.log("wtf");    
         player.reset(32, this.world.height-150);
+        attempt1--;
     }
     if(play==player2){
-       player2.kill();
-       console.log("wtf");    
+        player2.kill();
+        console.log("wtf");    
         player2.reset(1200, this.world.height - 150);
+        attempt2--;
     }
 },
 
@@ -330,5 +336,12 @@ hitSprite: function(spike,play) {
 
 	players.kill();
 	success++;
+}
+
+nextStage: function(){
+
+}
+gameOver: function(){
+    
 }
 };
