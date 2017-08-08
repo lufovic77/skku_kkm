@@ -20,6 +20,9 @@ var downKey;
 
 var hole;
 
+var attempt1=5,attempt2=5;
+var temp1=5,temp2=5;
+
 
 var result = 'Click a body';
 var Game={
@@ -197,58 +200,19 @@ create: function() {
 },
 
 update: function() {
-    this.physics.arcade.collide(player, platforms);
-
-    //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
-
-    if (cursors.left.isDown)
-    {
-        //  Move to the left
-        player.body.velocity.x = -150;
-
-        player.animations.play('left');
-    }
-    else if (cursors.right.isDown)
-    {
-        //  Move to the right
-        player.body.velocity.x = 150;
-
-        player.animations.play('right');
-    }
-    else
-    {
-        //  Stand still
-        player.animations.stop();
-
-        player.frame = 4;
-    }
-    
-    //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
-    {
-            player.body.velocity.y = -320;
-    }
-    if(switch_var%2==1 && cursors.up.isDown){
-            player.body.velocity.y = 320;
-
-    }
-
-
-
     this.physics.arcade.collide(player2, platforms);
 
     //  Reset the players velocity (movement)
     player2.body.velocity.x = 0;
 
-    if (this.leftKey.isDown)
+    if (cursors.left.isDown)
     {
         //  Move to the left
         player2.body.velocity.x = -150;
 
         player2.animations.play('left');
     }
-    else if (this.rightKey.isDown)
+    else if (cursors.right.isDown)
     {
         //  Move to the right
         player2.body.velocity.x = 150;
@@ -264,9 +228,48 @@ update: function() {
     }
     
     //  Allow the player to jump if they are touching the ground.
-    if (this.upKey.isDown && player2.body.touching.down)
+    if (cursors.up.isDown && player2.body.touching.down)
     {
-        player2.body.velocity.y = -320;
+            player2.body.velocity.y = -320;
+    }
+    if(switch_var%2==1 && cursors.up.isDown){
+            player2.body.velocity.y = 320;
+
+    }
+
+
+
+    this.physics.arcade.collide(player, platforms);
+
+    //  Reset the players velocity (movement)
+    player.body.velocity.x = 0;
+
+    if (this.leftKey.isDown)
+    {
+        //  Move to the left
+        player.body.velocity.x = -150;
+
+        player.animations.play('left');
+    }
+    else if (this.rightKey.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.x = 150;
+
+        player.animations.play('right');
+    }
+    else
+    {
+        //  Stand still
+        player.animations.stop();
+
+        player.frame = 4;
+    }
+    
+    //  Allow the player to jump if they are touching the ground.
+    if (this.upKey.isDown && player.body.touching.down)
+    {
+        player.body.velocity.y = -320;
     }
 
     //hole.angle++;
@@ -309,12 +312,18 @@ change: function() {
 	
 },
 
-hitSprite: function(spike,player) {
+hitSprite: function(spike,play) {
 
-	player.kill();
-	console.log("wtf");
-
-    player.reset(32, this.world.height-150);
+    if(play==player){
+	   player.kill();
+	   console.log("wtf");    
+        player.reset(32, this.world.height-150);
+    }
+    if(play==player2){
+       player2.kill();
+       console.log("wtf");    
+        player2.reset(1200, this.world.height - 150);
+    }
 },
 
  hitHole: function(hole, players) {
