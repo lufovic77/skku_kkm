@@ -13,6 +13,9 @@ var switch_on_2;
 var switch_off;
 var switch_var=0;
 
+
+var player1_heart, player2_heart;
+
 var leftKey;
 var rightKey;
 var upKey;
@@ -20,7 +23,7 @@ var downKey;
 
 var hole;
 
-var attempt1=5,attempt2=5;
+var attempt1=3,attempt2=3;
 
 
 var result = 'Click a body';
@@ -38,6 +41,10 @@ var Game={
     this.load.image('hole', './assets/images/hole.png');
   //  game.load.atlas('button', './assets/images/button_texture_atlas.png', './assets/button.json');
     this.load.spritesheet('dude', './assets/images/dude.png', 32, 46);
+    this.load.image('heart0', './assets/images/heart_0.png');
+    this.load.image('heart1', './assets/images/heart_1.png');
+    this.load.image('heart2', './assets/images/heart_2.png');
+    this.load.image('heart3', './assets/images/heart_3.png');
 
 },
 
@@ -196,6 +203,15 @@ create: function() {
     player.anchor.setTo(.5,.5);
     player2.anchor.setTo(.5,.5);
 
+
+
+    player1_heart = this.add.sprite(60, 70, 'heart3');
+    player1_heart.width=90;
+    player1_heart.height=35;
+    player2_heart = this.add.sprite(1130, 70, 'heart3');
+    player2_heart.width=90;
+    player2_heart.height=35;
+
 },
 
 update: function() {
@@ -276,6 +292,65 @@ update: function() {
     if(success==2){
     	nextStage();
     }
+
+    
+        if(attempt1==0 || attempt2==0){
+            gameOver();
+        }
+
+        if(attempt1==3){
+
+    player1_heart.loadTexture('heart3', 0);
+    player1_heart.width=90;
+    player1_heart.height=35;
+        }
+        if(attempt1==2){
+
+    player1_heart.loadTexture('heart2', 0);
+    player1_heart.width=90;
+    player1_heart.height=35;
+        }
+
+        if(attempt1==1){
+
+    player1_heart.loadTexture('heart1', 0);
+    player1_heart.width=90;
+    player1_heart.height=35;
+        }
+
+        if(attempt1==0){
+    player1_heart.loadTexture('heart0', 0);
+    player1_heart.width=90;
+    player1_heart.height=35;
+            gameOver();
+        }
+
+
+        if(attempt2==3){
+    player2_heart.loadTexture('heart3', 0);
+    player2_heart.width=90;
+    player2_heart.height=35;
+        }
+        if(attempt2==2){
+    player2_heart.loadTexture('heart2', 0);
+    player2_heart.width=90;
+    player2_heart.height=35;
+
+        }
+
+        if(attempt2==1){
+    player2_heart.loadTexture('heart1', 0);
+    player2_heart.width=90;
+    player2_heart.height=35;
+
+        }
+
+        if(attempt2==0){
+    player2_heart.loadTexture('heart0', 0);
+    player2_heart.width=90;
+    player2_heart.height=35;
+            gameOver();
+        }
 },
 	
 nextStage: function(){
@@ -310,9 +385,6 @@ change: function() {
         console.log(switch_var);
 	
 
-        if(attempt1==0 || attempt2==0){
-            gameOver();
-        }
 
 },
 
@@ -336,11 +408,11 @@ hitSprite: function(spike,play) {
 
 	players.kill();
 	success++;
-}
+},
 
 nextStage: function(){
 
-}
+},
 gameOver: function(){
     
 }
